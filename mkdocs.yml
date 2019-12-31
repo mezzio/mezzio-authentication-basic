@@ -1,12 +1,14 @@
 docs_dir: docs/book
 site_dir: docs/html
 nav:
-    - Home: index.md
-    - Introduction: v1/intro.md
-    - Configuration: v1/config.md
-    - Usage: v1/usage.md
-    - "_hidden-legacy-page-links":
-      - "_intro": intro.md
+    - { Home: index.md }
+    - { Introduction: v1/intro.md }
+    - { Configuration: v1/config.md }
+    - { Usage: v1/usage.md }
+    - { _hidden-legacy-page-links: [{ _intro: intro.md }] }
 site_name: mezzio-authentication-basic
 site_description: 'HTTP Basic Authentication adapter for mezzio-authentication.'
 repo_url: 'https://github.com/mezzio/mezzio-authentication-basic'
+extra:
+    project: Mezzio
+    project_url: 'https://docs.mezzio.dev'
