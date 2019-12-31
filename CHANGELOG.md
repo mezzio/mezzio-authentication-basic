@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Adds support for zend-expressive-authentication 0.2.
+- Adds support for mezzio-authentication 0.2.
 
 ### Changed
 
