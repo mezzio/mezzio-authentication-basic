@@ -1,12 +1,12 @@
 docs_dir: docs/book
 site_dir: docs/html
-pages:
+nav:
     - Home: index.md
     - Introduction: v1/intro.md
     - Configuration: v1/config.md
     - Usage: v1/usage.md
     - "_hidden-legacy-page-links":
       - "_intro": intro.md
-site_name: zend-expressive-authentication-basic
-site_description: 'HTTP Basic Authentication adapter for zend-expressive-authentication.'
-repo_url: 'https://github.com/zendframework/zend-expressive-authentication-basic'
+site_name: mezzio-authentication-basic
+site_description: 'HTTP Basic Authentication adapter for mezzio-authentication.'
+repo_url: 'https://github.com/mezzio/mezzio-authentication-basic'

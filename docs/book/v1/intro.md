@@ -1,7 +1,7 @@
 # Introduction
 
 This component provides an HTTP Basic Authentication adapter for
-[zend-expressive-authentication](https://docs.zendframework.com/zend-expressive-authentication).
+[mezzio-authentication](https://docs.mezzio.dev/mezzio-authentication).
 
 HTTP Basic authentication utilizes the user-info section of the URL authority in
 order to provide credentials. While the HTTP specifications allow a single value
