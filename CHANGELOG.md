@@ -10,16 +10,16 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- [#5](https://github.com/zendframework/zend-expressive-authentication-basic/pull/5)
-  changes the constructor of the `Zend\Expressive\Authentication\Basic\BasicAccess`
+- [zendframework/zend-expressive-authentication-basic#5](https://github.com/zendframework/zend-expressive-authentication-basic/pull/5)
+  changes the constructor of the `Mezzio\Authentication\Basic\BasicAccess`
   class to accept a callable `$responseFactory` instead of a
   `Psr\Http\Message\ResponseInterface` response prototype. The
   `$responseFactory` should produce a `ResponseInterface` implementation when
   invoked.
 
-- [#5](https://github.com/zendframework/zend-expressive-authentication-basic/pull/5)
+- [zendframework/zend-expressive-authentication-basic#5](https://github.com/zendframework/zend-expressive-authentication-basic/pull/5)
   updates the `BasicAccessFactory` to no longer use
-  `Zend\Expressive\Authentication\ResponsePrototypeTrait`, and instead always
+  `Mezzio\Authentication\ResponsePrototypeTrait`, and instead always
   depend on the `Psr\Http\Message\ResponseInterface` service to correctly return
   a PHP callable capable of producing a `ResponseInterface` instance.
 
@@ -43,7 +43,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- [#4](https://github.com/zendframework/zend-expressive-authentication-basic/pull/4)
+- [zendframework/zend-expressive-authentication-basic#4](https://github.com/zendframework/zend-expressive-authentication-basic/pull/4)
   changes the zendframework/zend-expressive-authentication minimum supported
   version to 1.0.0alpha3.
 
@@ -67,7 +67,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- [#3](https://github.com/zendframework/zend-expressive-authentication-basic/pull/3)
+- [zendframework/zend-expressive-authentication-basic#3](https://github.com/zendframework/zend-expressive-authentication-basic/pull/3)
   updates the zendframework/zend-expressive-authentication minimum supported
   version to 0.3.
 
@@ -87,8 +87,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#1](https://github.com/zendframework/zend-expressive-authentication-basic/pull/1)
-  adds support for the 1.0.0-dev branch of zend-expressive-authentication.
+- [zendframework/zend-expressive-authentication-basic#1](https://github.com/zendframework/zend-expressive-authentication-basic/pull/1)
+  adds support for the 1.0.0-dev branch of mezzio-authentication.
 
 ### Changed
 
@@ -110,7 +110,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Adds support for zend-expressive-authentication 0.2.
+- Adds support for mezzio-authentication 0.2.
 
 ### Changed
 

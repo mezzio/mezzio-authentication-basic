@@ -1,6 +1,6 @@
-# zend-expressive-authentication-basic
+# mezzio-authentication-basic
 
 This component provides an HTTP Basic Authentication adapter for
-[zend-expressive-authentication](https://docs.zendframework.com/zend-expressive-authentication).
+[mezzio-authentication](https://docs.mezzio.dev/mezzio-authentication).
 
 Docs are forthcoming...
