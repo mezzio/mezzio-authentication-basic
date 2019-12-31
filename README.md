@@ -1,10 +1,10 @@
-# zend-expressive-authentication-basic
+# mezzio-authentication-basic
 
-[![Build Status](https://secure.travis-ci.org/zendframework/zend-expressive-authentication-basic.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-expressive-authentication-basic)
-[![Coverage Status](https://coveralls.io/repos/github/zendframework/zend-expressive-authentication-basic/badge.svg?branch=master)](https://coveralls.io/github/zendframework/zend-expressive-authentication-basic?branch=master)
+[![Build Status](https://travis-ci.org/mezzio/mezzio-authentication-basic.svg?branch=master)](https://travis-ci.org/mezzio/mezzio-authentication-basic)
+[![Coverage Status](https://coveralls.io/repos/github/mezzio/mezzio-authentication-basic/badge.svg?branch=master)](https://coveralls.io/github/mezzio/mezzio-authentication-basic?branch=master)
 
 This library provides an HTTP Basic authentication adapter for
-[zend-expressive-authentication](https://docs.zendframework.com/zend-expressive-authentication),
+[mezzio-authentication](https://docs.mezzio.dev/mezzio-authentication),
 and thus PSR-7 middleware applications.
 
 ## Installation
@@ -12,15 +12,15 @@ and thus PSR-7 middleware applications.
 Run the following to install this library:
 
 ```bash
-$ composer require zendframework/zend-expressive-authentication-basic
+$ composer require mezzio/mezzio-authentication-basic
 ```
 
 ## Documentation
 
-Documentation is [in the doc tree](docs/book/), and can be compiled using [mkdocs](http://www.mkdocs.org):
+Documentation is [in the doc tree](docs/book/), and can be compiled using [mkdocs](https://www.mkdocs.org):
 
 ```bash
 $ mkdocs build
 ```
 
-You may also [browse the documentation online](https://docs.zendframework.com/zend-expressive-authentication-basic/).
+You may also [browse the documentation online](https://docs.mezzio.dev/mezzio-authentication-basic/).
