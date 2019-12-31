@@ -1,17 +1,17 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive-authentication-basic for the canonical source repository
- * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive-authentication-basic/blob/master/LICENSE.md
- *     New BSD License
+ * @see       https://github.com/mezzio/mezzio-authentication-basic for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio-authentication-basic/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio-authentication-basic/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Authentication\Basic;
+namespace Mezzio\Authentication\Basic;
 
+use Mezzio\Authentication\Exception;
+use Mezzio\Authentication\UserRepositoryInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Expressive\Authentication\Exception;
-use Zend\Expressive\Authentication\UserRepositoryInterface;
 
 class BasicAccessFactory
 {
@@ -19,7 +19,9 @@ class BasicAccessFactory
     {
         $userRegister = $container->has(UserRepositoryInterface::class)
             ? $container->get(UserRepositoryInterface::class)
-            : null;
+            : ($container->has(\Zend\Expressive\Authentication\UserRepositoryInterface::class)
+                ? $container->get(\Zend\Expressive\Authentication\UserRepositoryInterface::class)
+                : null);
 
         if (null === $userRegister) {
             throw new Exception\InvalidConfigException(
