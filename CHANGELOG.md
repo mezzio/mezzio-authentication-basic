@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- [#3](https://github.com/zendframework/zend-expressive-authentication-basic/pull/3)
+- [zendframework/zend-expressive-authentication-basic#3](https://github.com/zendframework/zend-expressive-authentication-basic/pull/3)
   updates the zendframework/zend-expressive-authentication minimum supported
   version to 0.3.
 
@@ -30,8 +30,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#1](https://github.com/zendframework/zend-expressive-authentication-basic/pull/1)
-  adds support for the 1.0.0-dev branch of zend-expressive-authentication.
+- [zendframework/zend-expressive-authentication-basic#1](https://github.com/zendframework/zend-expressive-authentication-basic/pull/1)
+  adds support for the 1.0.0-dev branch of mezzio-authentication.
 
 ### Changed
 
@@ -53,7 +53,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Adds support for zend-expressive-authentication 0.2.
+- Adds support for mezzio-authentication 0.2.
 
 ### Changed
 
