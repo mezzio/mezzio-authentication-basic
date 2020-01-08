@@ -1,6 +1,6 @@
 # mezzio-authentication-basic
 
-[![Build Status](https://travis-ci.org/mezzio/mezzio-authentication-basic.svg?branch=master)](https://travis-ci.org/mezzio/mezzio-authentication-basic)
+[![Build Status](https://travis-ci.com/mezzio/mezzio-authentication-basic.svg?branch=master)](https://travis-ci.com/mezzio/mezzio-authentication-basic)
 [![Coverage Status](https://coveralls.io/repos/github/mezzio/mezzio-authentication-basic/badge.svg?branch=master)](https://coveralls.io/github/mezzio/mezzio-authentication-basic?branch=master)
 
 This library provides an HTTP Basic authentication adapter for
