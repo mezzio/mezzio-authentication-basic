@@ -282,13 +282,14 @@
 mezzio-authentication <code>AuthenticationMiddleware</code> in your pipeline.</p>
 <h2 id="globally">Globally</h2>
 <p>If you need all routes to use authentication, add it globally.</p>
-<pre class=codehilite><code class=language-php>// In config/pipeline.php, within the callback:
+<pre class="highlight"><code class="language-php">// In config/pipeline.php, within the callback:
 
 $app-&gt;pipe(Mezzio\Authentication\AuthenticationMiddleware::class);</code></pre>
+
 <h2 id="for-an-entire-sub-path">For an entire sub-path</h2>
 <p>If you need all routes that begin with a particular sub-path to require
 authentication, use <a href="https://docs.laminas.dev/laminas-stratigility/v3/api/#path">path-segregation</a>:</p>
-<pre class=codehilite><code class=language-php>// In config/pipeline.php.
+<pre class="highlight"><code class="language-php">// In config/pipeline.php.
 // In the import statements:
 use Mezzio\Authentication\AuthenticationMiddleware;
 
@@ -296,10 +297,11 @@ use Mezzio\Authentication\AuthenticationMiddleware;
 $app-&gt;pipe('/api', $factory-&gt;path(
     $factory-&gt;prepare(AuthenticationMiddleware::class)
 ));</code></pre>
+
 <h2 id="for-a-specific-route">For a specific route</h2>
 <p>If you want to restrict access for a specific route, create a <a href="https://docs.mezzio.dev/mezzio/v3/cookbook/route-specific-pipeline/">route-specific
 middleware pipeline</a>:</p>
-<pre class=codehilite><code class=language-php>// In config/routes.php, in the callback:
+<pre class="highlight"><code class="language-php">// In config/routes.php, in the callback:
 
 $app-&gt;get(
     '/path/requiring/authentication',
