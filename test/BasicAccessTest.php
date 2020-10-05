@@ -23,16 +23,16 @@ class BasicAccessTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @var ServerRequestInterface|ObjectProphecy */
+    /** @var ObjectProphecy */
     private $request;
 
-    /** @var UserRepositoryInterface|ObjectProphecy */
+    /** @var ObjectProphecy */
     private $userRepository;
 
-    /** @var UserInterface|ObjectProphecy */
+    /** @var ObjectProphecy */
     private $authenticatedUser;
 
-    /** @var ResponseInterface|ObjectProphecy */
+    /** @var ObjectProphecy */
     private $responsePrototype;
 
     /** @var callable */
@@ -44,27 +44,41 @@ class BasicAccessTest extends TestCase
         $this->userRepository = $this->prophesize(UserRepositoryInterface::class);
         $this->authenticatedUser = $this->prophesize(UserInterface::class);
         $this->responsePrototype = $this->prophesize(ResponseInterface::class);
-        $this->responseFactory = function () {
+
+        $this->responseFactory = $this->responseFactoryClosure();
+    }
+
+    /**
+     * @return callable(): object
+     */
+    private function responseFactoryClosure(): callable
+    {
+        return function () {
+            /** @var object */
             return $this->responsePrototype->reveal();
         };
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
+        /** @var UserRepositoryInterface $userRepositoryInterface */
+        $userRepositoryInterface = $this->userRepository->reveal();
         $basicAccess = new BasicAccess(
-            $this->userRepository->reveal(),
+            $userRepositoryInterface,
             'test',
             $this->responseFactory
         );
         $this->assertInstanceOf(AuthenticationInterface::class, $basicAccess);
     }
 
-
     /**
      * @param array $authHeader
+     *
      * @dataProvider provideInvalidAuthenticationHeader
+     *
+     * @return void
      */
-    public function testIsAuthenticatedWithInvalidData(array $authHeader)
+    public function testIsAuthenticatedWithInvalidData(array $authHeader): void
     {
         $this->request
             ->getHeader('Authorization')
@@ -72,21 +86,29 @@ class BasicAccessTest extends TestCase
 
         $this->userRepository->authenticate(Argument::any(), Argument::any())->shouldNotBeCalled();
 
+        /** @var UserRepositoryInterface $userRepositoryInterface */
+        $userRepositoryInterface = $this->userRepository->reveal();
         $basicAccess = new BasicAccess(
-            $this->userRepository->reveal(),
+            $userRepositoryInterface,
             'test',
             $this->responseFactory
         );
-        $this->assertNull($basicAccess->authenticate($this->request->reveal()));
+
+        /** @var ServerRequestInterface $serverRequestInterface */
+        $serverRequestInterface = $this->request->reveal();
+        $this->assertNull($basicAccess->authenticate($serverRequestInterface));
     }
 
     /**
      * @param string $username
      * @param string $password
      * @param array $authHeader
+     *
      * @dataProvider provideValidAuthentication
+     *
+     * @return void
      */
-    public function testIsAuthenticatedWithValidCredential(string $username, string $password, array $authHeader)
+    public function testIsAuthenticatedWithValidCredential(string $username, string $password, array $authHeader): void
     {
         $this->request
             ->getHeader('Authorization')
@@ -102,17 +124,21 @@ class BasicAccessTest extends TestCase
             ->authenticate($username, $password)
             ->willReturn($this->authenticatedUser->reveal());
 
+        /** @var UserRepositoryInterface $userRepositoryInterface */
+        $userRepositoryInterface = $this->userRepository->reveal();
         $basicAccess = new BasicAccess(
-            $this->userRepository->reveal(),
+            $userRepositoryInterface,
             'test',
             $this->responseFactory
         );
 
-        $user = $basicAccess->authenticate($this->request->reveal());
+        /** @var ServerRequestInterface $serverRequestInterface */
+        $serverRequestInterface = $this->request->reveal();
+        $user = $basicAccess->authenticate($serverRequestInterface);
         $this->assertInstanceOf(UserInterface::class, $user);
     }
 
-    public function testIsAuthenticatedWithNoCredential()
+    public function testIsAuthenticatedWithNoCredential(): void
     {
         $this->request
             ->getHeader('Authorization')
@@ -122,16 +148,20 @@ class BasicAccessTest extends TestCase
             ->authenticate('Aladdin', 'OpenSesame')
             ->willReturn(null);
 
+        /** @var UserRepositoryInterface $userRepositoryInterface */
+        $userRepositoryInterface = $this->userRepository->reveal();
         $basicAccess = new BasicAccess(
-            $this->userRepository->reveal(),
+            $userRepositoryInterface,
             'test',
             $this->responseFactory
         );
 
-        $this->assertNull($basicAccess->authenticate($this->request->reveal()));
+        /** @var ServerRequestInterface $serverRequestInterface */
+        $serverRequestInterface = $this->request->reveal();
+        $this->assertNull($basicAccess->authenticate($serverRequestInterface));
     }
 
-    public function testGetUnauthenticatedResponse()
+    public function testGetUnauthenticatedResponse(): void
     {
         $this->responsePrototype
             ->getHeader('WWW-Authenticate')
@@ -143,17 +173,34 @@ class BasicAccessTest extends TestCase
             ->withStatus(401)
             ->willReturn($this->responsePrototype->reveal());
 
+        /** @var UserRepositoryInterface $userRepositoryInterface */
+        $userRepositoryInterface = $this->userRepository->reveal();
         $basicAccess = new BasicAccess(
-            $this->userRepository->reveal(),
+            $userRepositoryInterface,
             'test',
             $this->responseFactory
         );
 
-        $response = $basicAccess->unauthorizedResponse($this->request->reveal());
+        /** @var ServerRequestInterface $serverRequestInterface */
+        $serverRequestInterface = $this->request->reveal();
+        $response = $basicAccess->unauthorizedResponse($serverRequestInterface);
 
         $this->assertEquals(['Basic realm="test"'], $response->getHeader('WWW-Authenticate'));
     }
 
+    /**
+     * @psalm-return array{
+     * empty-header: array{0: array<empty, empty>},
+     * missing-basic-prefix: array{0: array{0: string}},
+     * only-username-without-colon: array{0: array{0: string}},
+     * base64-encoded-pile-of-poo-emoji: array{0: array{0: string}},
+     * pile-of-poo-emoji: array{0: array{0: string}},
+     * only-pile-of-poo-emoji: array{0: array{0: string}},
+     * basic-prefix-without-content: array{0: array{0: string}},
+     * only-basic: array{0: array{0: string}},
+     * multiple-auth-headers: array{0: array{0: array{0: string}, 1: array{0: string}}}
+     * }
+     */
     public function provideInvalidAuthenticationHeader(): array
     {
         return [
@@ -174,6 +221,19 @@ class BasicAccessTest extends TestCase
         ];
     }
 
+    /**
+     * @psalm-return array{
+     * aladdin: array{0: string, 1: string, 2: array{0: string}},
+     * aladdin-with-nonzero-array-index: array{0: string, 1: string, 2: array{-200: string}},
+     * passwords-with-colon: array{0: string, 1: string, 2: array{0: string}},
+     * username-without-password: array{0: string, 1: string, 2: array{0: string}},
+     * password-without-username: array{0: string, 1: string, 2: array{0: string}},
+     * passwords-with-multiple-colons: array{0: string, 1: string, 2: array{0: string}},
+     * no-username-or-password: array{0: string, 1: string, 2: array{0: string}},
+     * no-username-password-only-colons: array{0: string, 1: string, 2: array{0: string}},
+     * unicode-username-and-password: array{0: string, 1: string, 2: array{0: string}}
+     * }
+     */
     public function provideValidAuthentication(): array
     {
         return [

@@ -32,7 +32,7 @@ class BasicAccess implements AuthenticationInterface
     protected $realm;
 
     /**
-     * @var callable
+     * @var callable():ResponseInterface
      */
     protected $responseFactory;
 
@@ -46,6 +46,7 @@ class BasicAccess implements AuthenticationInterface
 
         // Ensures type safety of the composed factory
         $this->responseFactory = function () use ($responseFactory) : ResponseInterface {
+            /** @var ResponseInterface */
             return $responseFactory();
         };
     }
@@ -71,10 +72,6 @@ class BasicAccess implements AuthenticationInterface
         }
 
         $credentialParts = explode(':', $decodedCredentials, 2);
-
-        if (false === $credentialParts) {
-            return null;
-        }
 
         if (2 !== count($credentialParts)) {
             return null;

@@ -17,10 +17,11 @@ class BasicAccessFactory
 {
     public function __invoke(ContainerInterface $container) : BasicAccess
     {
+        /** @var UserRepositoryInterface|\Mezzio\Authentication\UserRepositoryInterface|null $userRegister */
         $userRegister = $container->has(UserRepositoryInterface::class)
             ? $container->get(UserRepositoryInterface::class)
-            : ($container->has(\Zend\Expressive\Authentication\UserRepositoryInterface::class)
-                ? $container->get(\Zend\Expressive\Authentication\UserRepositoryInterface::class)
+            : ($container->has(\Mezzio\Authentication\UserRepositoryInterface::class)
+                ? $container->get(\Mezzio\Authentication\UserRepositoryInterface::class)
                 : null);
 
         if (null === $userRegister) {
@@ -29,6 +30,7 @@ class BasicAccessFactory
             );
         }
 
+        /** @var string|null $realm */
         $realm = $container->get('config')['authentication']['realm'] ?? null;
 
         if (null === $realm) {
@@ -37,10 +39,19 @@ class BasicAccessFactory
             );
         }
 
+        /** @var callable|null $responseFactory */
+        $responseFactory = $container->get(ResponseInterface::class) ?? null;
+
+        if (null === $responseFactory || ! is_callable($responseFactory)) {
+            throw new Exception\InvalidConfigException(
+                'ResponseInterface value is not present in authentication config or not callable'
+            );
+        }
+
         return new BasicAccess(
             $userRegister,
             $realm,
-            $container->get(ResponseInterface::class)
+            $responseFactory
         );
     }
 }

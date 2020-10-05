@@ -16,6 +16,7 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
+use Prophecy\Prophecy\ProphecySubjectInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionProperty;
@@ -24,19 +25,19 @@ class BasicAccessFactoryTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @var ContainerInterface|ObjectProphecy */
+    /** @var ObjectProphecy */
     private $container;
 
     /** @var BasicAccessFactory */
     private $factory;
 
-    /** @var UserRepositoryInterface|ObjectProphecy */
+    /** @var ObjectProphecy */
     private $userRegister;
 
-    /** @var ResponseInterface|ObjectProphecy */
+    /** @var ObjectProphecy */
     private $responsePrototype;
 
-    /** @var callback */
+    /** @var callable */
     private $responseFactory;
 
     protected function setUp(): void
@@ -45,18 +46,29 @@ class BasicAccessFactoryTest extends TestCase
         $this->factory = new BasicAccessFactory();
         $this->userRegister = $this->prophesize(UserRepositoryInterface::class);
         $this->responsePrototype = $this->prophesize(ResponseInterface::class);
-        $this->responseFactory = function () {
+        $this->responseFactory = $this->responseFactoryClosure();
+    }
+
+    /**
+     * @return callable(): object
+     */
+    private function responseFactoryClosure(): callable
+    {
+        return function () {
+            /** @var object */
             return $this->responsePrototype->reveal();
         };
     }
 
-    public function testInvokeWithEmptyContainer()
+    public function testInvokeWithEmptyContainer(): void
     {
+        /** @var ContainerInterface $containerInterface */
+        $containerInterface = $this->container->reveal();
         $this->expectException(InvalidConfigException::class);
-        ($this->factory)($this->container->reveal());
+        ($this->factory)($containerInterface);
     }
 
-    public function testInvokeWithContainerEmptyConfig()
+    public function testInvokeWithContainerEmptyConfig(): void
     {
         $this->container
             ->has(UserRepositoryInterface::class)
@@ -75,10 +87,13 @@ class BasicAccessFactoryTest extends TestCase
             ->willReturn([]);
 
         $this->expectException(InvalidConfigException::class);
-        ($this->factory)($this->container->reveal());
+
+        /** @var ContainerInterface $containerInterface */
+        $containerInterface = $this->container->reveal();
+        ($this->factory)($containerInterface);
     }
 
-    public function testInvokeWithContainerAndConfig()
+    public function testInvokeWithContainerAndConfig(): void
     {
         $this->container
             ->has(UserRepositoryInterface::class)
@@ -98,15 +113,20 @@ class BasicAccessFactoryTest extends TestCase
                 'authentication' => ['realm' => 'My page'],
             ]);
 
-        $basicAccess = ($this->factory)($this->container->reveal());
-        $this->assertInstanceOf(BasicAccess::class, $basicAccess);
-        $this->assertResponseFactoryReturns($this->responsePrototype->reveal(), $basicAccess);
+        /** @var ContainerInterface $containerInterface */
+        $containerInterface = $this->container->reveal();
+        $basicAccess = ($this->factory)($containerInterface);
+
+        /** @var ResponseInterface $responseInterface */
+        $responseInterface = $this->responsePrototype->reveal();
+        $this->assertResponseFactoryReturns($responseInterface, $basicAccess);
     }
 
-    public static function assertResponseFactoryReturns(ResponseInterface $expected, BasicAccess $service) : void
+    public static function assertResponseFactoryReturns(ResponseInterface $expected, BasicAccess $service): void
     {
         $r = new ReflectionProperty($service, 'responseFactory');
         $r->setAccessible(true);
+        /** @var callable $responseFactory */
         $responseFactory = $r->getValue($service);
         Assert::assertSame($expected, $responseFactory());
     }

@@ -16,12 +16,15 @@ class ConfigProviderTest extends TestCase
 {
     use ProphecyTrait;
 
+    /** @var ConfigProvider */
+    private $provider;
+
     public function setUp(): void
     {
         $this->provider = new ConfigProvider();
     }
 
-    public function testInvocationReturnsArray()
+    public function testInvocationReturnsArray(): array
     {
         $config = ($this->provider)();
         $this->assertIsArray($config);
@@ -30,8 +33,10 @@ class ConfigProviderTest extends TestCase
 
     /**
      * @depends testInvocationReturnsArray
+     *
+     * @return void
      */
-    public function testReturnedArrayContainsDependencies(array $config)
+    public function testReturnedArrayContainsDependencies(array $config): void
     {
         $this->assertArrayHasKey('dependencies', $config);
         $this->assertIsArray($config['dependencies']);
@@ -39,8 +44,10 @@ class ConfigProviderTest extends TestCase
 
     /**
      * @depends testInvocationReturnsArray
+     *
+     * @return void
      */
-    public function testReturnedArrayContainsAuthenticationConfig(array $config)
+    public function testReturnedArrayContainsAuthenticationConfig(array $config): void
     {
         $this->assertArrayHasKey('authentication', $config);
         $this->assertIsArray($config['authentication']);
