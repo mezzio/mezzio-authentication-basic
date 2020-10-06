@@ -16,7 +16,6 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
-use Prophecy\Prophecy\ProphecySubjectInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionProperty;

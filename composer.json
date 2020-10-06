@@ -56,9 +56,9 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "test": "phpunit --colors=always",
+        "test": "phpunit --colors=always --dont-report-useless-tests",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
-        "static-analysis": "psalm --config=.psalm.xml.dist --shepherd --stats"
+        "static-analysis": "psalm --shepherd --stats"
     },
     "replace": {
         "zendframework/zend-expressive-authentication-basic": "^1.0.0"
