@@ -14,6 +14,7 @@ use Mezzio\Authentication\Exception\InvalidConfigException;
 use Mezzio\Authentication\UserRepositoryInterface;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -21,6 +22,8 @@ use ReflectionProperty;
 
 class BasicAccessFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
 
@@ -36,7 +39,7 @@ class BasicAccessFactoryTest extends TestCase
     /** @var callback */
     private $responseFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
         $this->factory = new BasicAccessFactory();

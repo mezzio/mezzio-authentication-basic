@@ -14,12 +14,15 @@ use Mezzio\Authentication\UserInterface;
 use Mezzio\Authentication\UserRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class BasicAccessTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var ServerRequestInterface|ObjectProphecy */
     private $request;
 
@@ -35,7 +38,7 @@ class BasicAccessTest extends TestCase
     /** @var callable */
     private $responseFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->request = $this->prophesize(ServerRequestInterface::class);
         $this->userRepository = $this->prophesize(UserRepositoryInterface::class);
