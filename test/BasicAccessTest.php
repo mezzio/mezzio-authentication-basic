@@ -44,16 +44,7 @@ class BasicAccessTest extends TestCase
         $this->userRepository = $this->prophesize(UserRepositoryInterface::class);
         $this->authenticatedUser = $this->prophesize(UserInterface::class);
         $this->responsePrototype = $this->prophesize(ResponseInterface::class);
-        $this->responseFactory = $this->responseFactoryClosure();
-    }
-
-    /**
-     * @return callable(): object
-     */
-    private function responseFactoryClosure(): callable
-    {
-        return function () {
-            /** @var object */
+        $this->responseFactory = function (): ResponseInterface {
             return $this->responsePrototype->reveal();
         };
     }
