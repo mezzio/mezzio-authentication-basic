@@ -36,6 +36,7 @@
         "laminas/laminas-coding-standard": "~1.0.0",
         "phpspec/prophecy": "^1.12",
         "phpspec/prophecy-phpunit": "^2.0",
+        "psalm/plugin-phpunit": "^0.12.2",
         "phpunit/phpunit": "^9.3"
     },
     "autoload": {
@@ -55,8 +56,9 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "test": "phpunit --colors=always",
-        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+        "test": "phpunit --colors=always --dont-report-useless-tests",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "static-analysis": "psalm --shepherd --stats"
     },
     "replace": {
         "zendframework/zend-expressive-authentication-basic": "^1.0.0"

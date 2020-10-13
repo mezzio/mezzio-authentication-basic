@@ -10,28 +10,26 @@ namespace MezzioTest\Authentication\Basic;
 
 use Mezzio\Authentication\Basic\ConfigProvider;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 class ConfigProviderTest extends TestCase
 {
-    use ProphecyTrait;
+    /** @var ConfigProvider */
+    private $provider;
 
     public function setUp(): void
     {
         $this->provider = new ConfigProvider();
     }
 
-    public function testInvocationReturnsArray()
+    public function testInvocationReturnsArray(): array
     {
-        $config = ($this->provider)();
-        $this->assertIsArray($config);
-        return $config;
+        return ($this->provider)();
     }
 
     /**
      * @depends testInvocationReturnsArray
      */
-    public function testReturnedArrayContainsDependencies(array $config)
+    public function testReturnedArrayContainsDependencies(array $config): void
     {
         $this->assertArrayHasKey('dependencies', $config);
         $this->assertIsArray($config['dependencies']);
@@ -40,7 +38,7 @@ class ConfigProviderTest extends TestCase
     /**
      * @depends testInvocationReturnsArray
      */
-    public function testReturnedArrayContainsAuthenticationConfig(array $config)
+    public function testReturnedArrayContainsAuthenticationConfig(array $config): void
     {
         $this->assertArrayHasKey('authentication', $config);
         $this->assertIsArray($config['authentication']);
