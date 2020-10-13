@@ -10,12 +10,9 @@ namespace MezzioTest\Authentication\Basic;
 
 use Mezzio\Authentication\Basic\ConfigProvider;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 class ConfigProviderTest extends TestCase
 {
-    use ProphecyTrait;
-
     /** @var ConfigProvider */
     private $provider;
 
@@ -31,8 +28,6 @@ class ConfigProviderTest extends TestCase
 
     /**
      * @depends testInvocationReturnsArray
-     *
-     * @return void
      */
     public function testReturnedArrayContainsDependencies(array $config): void
     {
@@ -42,8 +37,6 @@ class ConfigProviderTest extends TestCase
 
     /**
      * @depends testInvocationReturnsArray
-     *
-     * @return void
      */
     public function testReturnedArrayContainsAuthenticationConfig(array $config): void
     {

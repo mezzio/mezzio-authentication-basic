@@ -24,16 +24,16 @@ class BasicAccessFactoryTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @var ObjectProphecy */
+    /** @var ObjectProphecy<ContainerInterface> */
     private $container;
 
     /** @var BasicAccessFactory */
     private $factory;
 
-    /** @var ObjectProphecy */
+    /** @var ObjectProphecy<UserRepositoryInterface> */
     private $userRegister;
 
-    /** @var ObjectProphecy */
+    /** @var ObjectProphecy<ResponseInterface> */
     private $responsePrototype;
 
     /** @var callable */
@@ -87,9 +87,7 @@ class BasicAccessFactoryTest extends TestCase
 
         $this->expectException(InvalidConfigException::class);
 
-        /** @var ContainerInterface $containerInterface */
-        $containerInterface = $this->container->reveal();
-        ($this->factory)($containerInterface);
+        ($this->factory)($this->container->reveal());
     }
 
     public function testInvokeWithContainerAndConfig(): void
@@ -112,13 +110,8 @@ class BasicAccessFactoryTest extends TestCase
                 'authentication' => ['realm' => 'My page'],
             ]);
 
-        /** @var ContainerInterface $containerInterface */
-        $containerInterface = $this->container->reveal();
-        $basicAccess = ($this->factory)($containerInterface);
-
-        /** @var ResponseInterface $responseInterface */
-        $responseInterface = $this->responsePrototype->reveal();
-        $this->assertResponseFactoryReturns($responseInterface, $basicAccess);
+        $basicAccess = ($this->factory)($this->container->reveal());
+        $this->assertResponseFactoryReturns($this->responsePrototype->reveal(), $basicAccess);
     }
 
     public static function assertResponseFactoryReturns(ResponseInterface $expected, BasicAccess $service): void

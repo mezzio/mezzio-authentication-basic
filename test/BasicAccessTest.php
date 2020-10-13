@@ -23,16 +23,16 @@ class BasicAccessTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @var ObjectProphecy */
+    /** @var ObjectProphecy<ServerRequestInterface> */
     private $request;
 
-    /** @var ObjectProphecy */
+    /** @var ObjectProphecy<UserRepositoryInterface> */
     private $userRepository;
 
-    /** @var ObjectProphecy */
+    /** @var ObjectProphecy<UserInterface> */
     private $authenticatedUser;
 
-    /** @var ObjectProphecy */
+    /** @var ObjectProphecy<ResponseInterface> */
     private $responsePrototype;
 
     /** @var callable */
@@ -61,10 +61,8 @@ class BasicAccessTest extends TestCase
 
     public function testConstructor(): void
     {
-        /** @var UserRepositoryInterface $userRepositoryInterface */
-        $userRepositoryInterface = $this->userRepository->reveal();
         $basicAccess = new BasicAccess(
-            $userRepositoryInterface,
+            $this->userRepository->reveal(),
             'test',
             $this->responseFactory
         );
@@ -86,27 +84,17 @@ class BasicAccessTest extends TestCase
 
         $this->userRepository->authenticate(Argument::any(), Argument::any())->shouldNotBeCalled();
 
-        /** @var UserRepositoryInterface $userRepositoryInterface */
-        $userRepositoryInterface = $this->userRepository->reveal();
         $basicAccess = new BasicAccess(
-            $userRepositoryInterface,
+            $this->userRepository->reveal(),
             'test',
             $this->responseFactory
         );
 
-        /** @var ServerRequestInterface $serverRequestInterface */
-        $serverRequestInterface = $this->request->reveal();
-        $this->assertNull($basicAccess->authenticate($serverRequestInterface));
+        $this->assertNull($basicAccess->authenticate($this->request->reveal()));
     }
 
     /**
-     * @param string $username
-     * @param string $password
-     * @param array $authHeader
-     *
      * @dataProvider provideValidAuthentication
-     *
-     * @return void
      */
     public function testIsAuthenticatedWithValidCredential(string $username, string $password, array $authHeader): void
     {
@@ -124,17 +112,13 @@ class BasicAccessTest extends TestCase
             ->authenticate($username, $password)
             ->willReturn($this->authenticatedUser->reveal());
 
-        /** @var UserRepositoryInterface $userRepositoryInterface */
-        $userRepositoryInterface = $this->userRepository->reveal();
         $basicAccess = new BasicAccess(
-            $userRepositoryInterface,
+            $this->userRepository->reveal(),
             'test',
             $this->responseFactory
         );
 
-        /** @var ServerRequestInterface $serverRequestInterface */
-        $serverRequestInterface = $this->request->reveal();
-        $user = $basicAccess->authenticate($serverRequestInterface);
+        $user = $basicAccess->authenticate($this->request->reveal());
         $this->assertInstanceOf(UserInterface::class, $user);
     }
 
@@ -148,17 +132,13 @@ class BasicAccessTest extends TestCase
             ->authenticate('Aladdin', 'OpenSesame')
             ->willReturn(null);
 
-        /** @var UserRepositoryInterface $userRepositoryInterface */
-        $userRepositoryInterface = $this->userRepository->reveal();
         $basicAccess = new BasicAccess(
-            $userRepositoryInterface,
+            $this->userRepository->reveal(),
             'test',
             $this->responseFactory
         );
 
-        /** @var ServerRequestInterface $serverRequestInterface */
-        $serverRequestInterface = $this->request->reveal();
-        $this->assertNull($basicAccess->authenticate($serverRequestInterface));
+        $this->assertNull($basicAccess->authenticate($this->request->reveal()));
     }
 
     public function testGetUnauthenticatedResponse(): void
@@ -173,10 +153,8 @@ class BasicAccessTest extends TestCase
             ->withStatus(401)
             ->willReturn($this->responsePrototype->reveal());
 
-        /** @var UserRepositoryInterface $userRepositoryInterface */
-        $userRepositoryInterface = $this->userRepository->reveal();
         $basicAccess = new BasicAccess(
-            $userRepositoryInterface,
+            $this->userRepository->reveal(),
             'test',
             $this->responseFactory
         );
