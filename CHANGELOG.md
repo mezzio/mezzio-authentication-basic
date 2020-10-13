@@ -2,27 +2,25 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.1.0 - TBD
+## 1.1.0 - 2020-10-13
 
-### Added
 
-- Nothing.
+-----
 
-### Changed
+### Release Notes for [1.1.0](https://github.com/mezzio/mezzio-authentication-basic/milestone/1)
 
-- Nothing.
 
-### Deprecated
 
-- Nothing.
+### 1.1.0
 
-### Removed
+- Total issues resolved: **1**
+- Total pull requests resolved: **2**
+- Total contributors: **2**
 
-- Nothing.
+#### Enhancement,hacktoberfest-accepted
 
-### Fixed
-
-- Nothing.
+ - [4: PHP 8.0 Support](https://github.com/mezzio/mezzio-authentication-basic/pull/4) thanks to @diwms
+ - [3: Psalm Integration](https://github.com/mezzio/mezzio-authentication-basic/pull/3) thanks to @diwms and @boesing
 
 ## 1.0.0 - 2018-09-28
 
