@@ -61,10 +61,8 @@ class BasicAccessFactoryTest extends TestCase
 
     public function testInvokeWithEmptyContainer(): void
     {
-        /** @var ContainerInterface $containerInterface */
-        $containerInterface = $this->container->reveal();
         $this->expectException(InvalidConfigException::class);
-        ($this->factory)($containerInterface);
+        ($this->factory)($this->container->reveal());
     }
 
     public function testInvokeWithContainerEmptyConfig(): void
@@ -86,7 +84,6 @@ class BasicAccessFactoryTest extends TestCase
             ->willReturn([]);
 
         $this->expectException(InvalidConfigException::class);
-
         ($this->factory)($this->container->reveal());
     }
 

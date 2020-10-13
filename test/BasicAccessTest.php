@@ -44,7 +44,6 @@ class BasicAccessTest extends TestCase
         $this->userRepository = $this->prophesize(UserRepositoryInterface::class);
         $this->authenticatedUser = $this->prophesize(UserInterface::class);
         $this->responsePrototype = $this->prophesize(ResponseInterface::class);
-
         $this->responseFactory = $this->responseFactoryClosure();
     }
 
@@ -70,11 +69,7 @@ class BasicAccessTest extends TestCase
     }
 
     /**
-     * @param array $authHeader
-     *
      * @dataProvider provideInvalidAuthenticationHeader
-     *
-     * @return void
      */
     public function testIsAuthenticatedWithInvalidData(array $authHeader): void
     {
@@ -159,9 +154,7 @@ class BasicAccessTest extends TestCase
             $this->responseFactory
         );
 
-        /** @var ServerRequestInterface $serverRequestInterface */
-        $serverRequestInterface = $this->request->reveal();
-        $response = $basicAccess->unauthorizedResponse($serverRequestInterface);
+        $response = $basicAccess->unauthorizedResponse($this->request->reveal());
 
         $this->assertEquals(['Basic realm="test"'], $response->getHeader('WWW-Authenticate'));
     }
