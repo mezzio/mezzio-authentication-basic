@@ -2,27 +2,24 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.1.1 - TBD
+## 1.1.1 - 2021-03-10
 
-### Added
 
-- Nothing.
+-----
 
-### Changed
+### Release Notes for [1.1.1](https://github.com/mezzio/mezzio-authentication-basic/milestone/2)
 
-- Nothing.
+1.1.x bugfix release (patch)
 
-### Deprecated
+### 1.1.1
 
-- Nothing.
+- Total issues resolved: **0**
+- Total pull requests resolved: **1**
+- Total contributors: **1**
 
-### Removed
+#### Bug,Documentation
 
-- Nothing.
-
-### Fixed
-
-- Nothing.
+ - [5: Fix interface name in configuration of authentication adapter](https://github.com/mezzio/mezzio-authentication-basic/pull/5) thanks to @arueckauer
 
 ## 1.1.0 - 2020-10-13
 
