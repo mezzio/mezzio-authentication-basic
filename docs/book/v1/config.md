@@ -17,7 +17,7 @@ As an example of configuration:
 ```php
 // config/autoload/authentication.global.php
 
-use Mezzio\Authentication\AdapterInterface;
+use Mezzio\Authentication\AuthenticationInterface;
 use Mezzio\Authentication\Basic\BasicAccess;
 use Mezzio\Authentication\UserRepositoryInterface;
 use Mezzio\Authentication\UserRepository\PdoDatabase;
@@ -31,7 +31,7 @@ return [
 
             // Tell mezzio-authentication to use the BasicAccess
             // adapter:
-            AdapterInterface::class => BasicAccess::class,
+            AuthenticationInterface::class => BasicAccess::class,
         ],
     ],
     'authentication' => [
