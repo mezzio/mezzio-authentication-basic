@@ -1,6 +1,6 @@
 # mezzio-authentication-basic
 
-[![Build Status](https://github.com/mezzio/mezzio-authentication-basic/workflows/continuous-integration.yml/badge.svg)](https://github.com/mezzio/mezzio-authentication-basic/actions/workflows/continuous-integration.yml)
+[![Build Status](https://github.com/mezzio/mezzio-authentication-basic/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/mezzio/mezzio-authentication-basic/actions/workflows/continuous-integration.yml)
 
 This library provides an HTTP Basic authentication adapter for
 [mezzio-authentication](https://docs.mezzio.dev/mezzio-authentication),
