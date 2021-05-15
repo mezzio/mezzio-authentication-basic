@@ -8,26 +8,23 @@ use Mezzio\Authentication\UserRepositoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use function array_shift;
 use function base64_decode;
+use function count;
 use function explode;
 use function preg_match;
 use function sprintf;
 
 class BasicAccess implements AuthenticationInterface
 {
-    /**
-     * @var UserRepositoryInterface
-     */
+    /** @var UserRepositoryInterface */
     protected $repository;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $realm;
 
-    /**
-     * @var callable():ResponseInterface
-     */
+    // phpcs:disable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.InvalidFormat
+    /** @var callable():ResponseInterface */
     protected $responseFactory;
 
     public function __construct(
@@ -36,16 +33,16 @@ class BasicAccess implements AuthenticationInterface
         callable $responseFactory
     ) {
         $this->repository = $repository;
-        $this->realm = $realm;
+        $this->realm      = $realm;
 
         // Ensures type safety of the composed factory
-        $this->responseFactory = function () use ($responseFactory) : ResponseInterface {
+        $this->responseFactory = function () use ($responseFactory): ResponseInterface {
             /** @var ResponseInterface */
             return $responseFactory();
         };
     }
 
-    public function authenticate(ServerRequestInterface $request) : ?UserInterface
+    public function authenticate(ServerRequestInterface $request): ?UserInterface
     {
         $authHeaders = $request->getHeader('Authorization');
 
@@ -76,7 +73,7 @@ class BasicAccess implements AuthenticationInterface
         return $this->repository->authenticate($username, $password);
     }
 
-    public function unauthorizedResponse(ServerRequestInterface $request) : ResponseInterface
+    public function unauthorizedResponse(ServerRequestInterface $request): ResponseInterface
     {
         return ($this->responseFactory)()
             ->withHeader(

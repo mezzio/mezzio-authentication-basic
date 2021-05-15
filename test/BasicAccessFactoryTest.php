@@ -35,11 +35,11 @@ class BasicAccessFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->container = $this->prophesize(ContainerInterface::class);
-        $this->factory = new BasicAccessFactory();
-        $this->userRegister = $this->prophesize(UserRepositoryInterface::class);
+        $this->container         = $this->prophesize(ContainerInterface::class);
+        $this->factory           = new BasicAccessFactory();
+        $this->userRegister      = $this->prophesize(UserRepositoryInterface::class);
         $this->responsePrototype = $this->prophesize(ResponseInterface::class);
-        $this->responseFactory = function (): ResponseInterface {
+        $this->responseFactory   = function (): ResponseInterface {
             return $this->responsePrototype->reveal();
         };
     }
