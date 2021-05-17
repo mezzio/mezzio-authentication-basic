@@ -1,7 +1,6 @@
 {
     "name": "mezzio/mezzio-authentication-basic",
     "description": "HTTP Basic Authentication adapter for mezzio-authentication.",
-    "license": "BSD-3-Clause",
     "keywords": [
         "laminas",
         "mezzio",
@@ -9,13 +8,23 @@
         "http-basic"
     ],
     "homepage": "https://mezzio.dev",
-    "support": {
-        "docs": "https://docs.mezzio.dev/mezzio-authentication-basic/",
-        "issues": "https://github.com/mezzio/mezzio-authentication-basic/issues",
-        "source": "https://github.com/mezzio/mezzio-authentication-basic",
-        "rss": "https://github.com/mezzio/mezzio-authentication-basic/releases.atom",
-        "chat": "https://laminas.dev/chat",
-        "forum": "https://discourse.laminas.dev"
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": "^7.3 || ~8.0.0",
+        "laminas/laminas-zendframework-bridge": "^1.0",
+        "mezzio/mezzio-authentication": "^1.0",
+        "psr/container": "^1.0",
+        "psr/http-message": "^1.0.1"
+    },
+    "replace": {
+        "zendframework/zend-expressive-authentication-basic": "^1.0.0"
+    },
+    "require-dev": {
+        "laminas/laminas-coding-standard": "~1.0.0",
+        "phpspec/prophecy": "^1.12",
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpunit/phpunit": "^9.3",
+        "psalm/plugin-phpunit": "^0.12.2"
     },
     "config": {
         "sort-packages": true
@@ -24,20 +33,6 @@
         "laminas": {
             "config-provider": "Mezzio\\Authentication\\Basic\\ConfigProvider"
         }
-    },
-    "require": {
-        "php": "^7.3 || ~8.0.0",
-        "laminas/laminas-zendframework-bridge": "^1.0",
-        "mezzio/mezzio-authentication": "^1.0",
-        "psr/container": "^1.0",
-        "psr/http-message": "^1.0.1"
-    },
-    "require-dev": {
-        "laminas/laminas-coding-standard": "~1.0.0",
-        "phpspec/prophecy": "^1.12",
-        "phpspec/prophecy-phpunit": "^2.0",
-        "psalm/plugin-phpunit": "^0.12.2",
-        "phpunit/phpunit": "^9.3"
     },
     "autoload": {
         "psr-4": {
@@ -56,11 +51,16 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
+        "static-analysis": "psalm --shepherd --stats",
         "test": "phpunit --colors=always --dont-report-useless-tests",
-        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
-        "static-analysis": "psalm --shepherd --stats"
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     },
-    "replace": {
-        "zendframework/zend-expressive-authentication-basic": "^1.0.0"
+    "support": {
+        "issues": "https://github.com/mezzio/mezzio-authentication-basic/issues",
+        "forum": "https://discourse.laminas.dev",
+        "chat": "https://laminas.dev/chat",
+        "source": "https://github.com/mezzio/mezzio-authentication-basic",
+        "docs": "https://docs.mezzio.dev/mezzio-authentication-basic/",
+        "rss": "https://github.com/mezzio/mezzio-authentication-basic/releases.atom"
     }
 }
