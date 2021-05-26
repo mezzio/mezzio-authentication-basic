@@ -13,6 +13,8 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use function base64_encode;
+
 class BasicAccessTest extends TestCase
 {
     use ProphecyTrait;
@@ -34,11 +36,11 @@ class BasicAccessTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->request = $this->prophesize(ServerRequestInterface::class);
-        $this->userRepository = $this->prophesize(UserRepositoryInterface::class);
+        $this->request           = $this->prophesize(ServerRequestInterface::class);
+        $this->userRepository    = $this->prophesize(UserRepositoryInterface::class);
         $this->authenticatedUser = $this->prophesize(UserInterface::class);
         $this->responsePrototype = $this->prophesize(ResponseInterface::class);
-        $this->responseFactory = function (): ResponseInterface {
+        $this->responseFactory   = function (): ResponseInterface {
             return $this->responsePrototype->reveal();
         };
     }
@@ -160,15 +162,15 @@ class BasicAccessTest extends TestCase
     public function provideInvalidAuthenticationHeader(): array
     {
         return [
-            'empty-header' => [[]],
-            'missing-basic-prefix' => [['foo']],
-            'only-username-without-colon' => [['Basic ' . base64_encode('Aladdin')]],
+            'empty-header'                     => [[]],
+            'missing-basic-prefix'             => [['foo']],
+            'only-username-without-colon'      => [['Basic ' . base64_encode('Aladdin')]],
             'base64-encoded-pile-of-poo-emoji' => [['Basic ' . base64_encode('💩')]],
-            'pile-of-poo-emoji' => [['Basic 💩']],
-            'only-pile-of-poo-emoji' => [['💩']],
-            'basic-prefix-without-content' => [['Basic ']],
-            'only-basic' => [['Basic']],
-            'multiple-auth-headers' => [
+            'pile-of-poo-emoji'                => [['Basic 💩']],
+            'only-pile-of-poo-emoji'           => [['💩']],
+            'basic-prefix-without-content'     => [['Basic ']],
+            'only-basic'                       => [['Basic']],
+            'multiple-auth-headers'            => [
                 [
                     ['Basic ' . base64_encode('Aladdin:OpenSesame')],
                     ['Basic ' . base64_encode('Aladdin:OpenSesame')],
@@ -192,27 +194,29 @@ class BasicAccessTest extends TestCase
      */
     public function provideValidAuthentication(): array
     {
+        // phpcs:disable Generic.Files.LineLength.TooLong
         return [
-            'aladdin' => ['Aladdin', 'OpenSesame', ['Basic ' . base64_encode('Aladdin:OpenSesame')]],
+            'aladdin'                          => ['Aladdin', 'OpenSesame', ['Basic ' . base64_encode('Aladdin:OpenSesame')]],
             'aladdin-with-nonzero-array-index' => [
                 'Aladdin',
                 'OpenSesame',
-                [-200 => 'Basic ' . base64_encode('Aladdin:OpenSesame')]
+                [-200 => 'Basic ' . base64_encode('Aladdin:OpenSesame')],
             ],
-            'passwords-with-colon' => ['Aladdin', 'Open:Sesame', ['Basic ' . base64_encode('Aladdin:Open:Sesame')]],
-            'username-without-password' => ['Aladdin', '', ['Basic ' . base64_encode('Aladdin:')]],
-            'password-without-username' => ['', 'OpenSesame', ['Basic ' . base64_encode(':OpenSesame')]],
-            'passwords-with-multiple-colons' => [
+            'passwords-with-colon'             => ['Aladdin', 'Open:Sesame', ['Basic ' . base64_encode('Aladdin:Open:Sesame')]],
+            'username-without-password'        => ['Aladdin', '', ['Basic ' . base64_encode('Aladdin:')]],
+            'password-without-username'        => ['', 'OpenSesame', ['Basic ' . base64_encode(':OpenSesame')]],
+            'passwords-with-multiple-colons'   => [
                 'Aladdin',
                 '::Open:::Sesame::',
-                ['Basic ' . base64_encode('Aladdin:::Open:::Sesame::')]
+                ['Basic ' . base64_encode('Aladdin:::Open:::Sesame::')],
             ],
-            'no-username-or-password' => ['', '', ['Basic ' . base64_encode(':')]],
+            'no-username-or-password'          => ['', '', ['Basic ' . base64_encode(':')]],
             'no-username-password-only-colons' => ['', '::::::', ['Basic ' . base64_encode(':::::::')]],
-            'unicode-username-and-password' => [
+            'unicode-username-and-password'    => [
                 'thumbsup-emoji-👍',
                 'thumbsdown-emoji-👎',
-                ['Basic ' . base64_encode('thumbsup-emoji-👍:thumbsdown-emoji-👎')]],
+                ['Basic ' . base64_encode('thumbsup-emoji-👍:thumbsdown-emoji-👎')],
+            ],
         ];
     }
 }

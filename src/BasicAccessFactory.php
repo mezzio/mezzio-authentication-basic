@@ -7,15 +7,17 @@ use Mezzio\Authentication\UserRepositoryInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 
+use function is_callable;
+
 class BasicAccessFactory
 {
-    public function __invoke(ContainerInterface $container) : BasicAccess
+    public function __invoke(ContainerInterface $container): BasicAccess
     {
-        /** @var UserRepositoryInterface|\Mezzio\Authentication\UserRepositoryInterface|null $userRegister */
+        /** @var UserRepositoryInterface|UserRepositoryInterface|null $userRegister */
         $userRegister = $container->has(UserRepositoryInterface::class)
             ? $container->get(UserRepositoryInterface::class)
-            : ($container->has(\Mezzio\Authentication\UserRepositoryInterface::class)
-                ? $container->get(\Mezzio\Authentication\UserRepositoryInterface::class)
+            : ($container->has(UserRepositoryInterface::class)
+                ? $container->get(UserRepositoryInterface::class)
                 : null);
 
         if (null === $userRegister) {
