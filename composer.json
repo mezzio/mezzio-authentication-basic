@@ -27,7 +27,6 @@
     },
     "require": {
         "php": "^7.3 || ~8.0.0",
-        "laminas/laminas-zendframework-bridge": "^1.0",
         "mezzio/mezzio-authentication": "^1.0",
         "psr/container": "^1.0",
         "psr/http-message": "^1.0.1"
@@ -60,7 +59,7 @@
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
         "static-analysis": "psalm --shepherd --stats"
     },
-    "replace": {
-        "zendframework/zend-expressive-authentication-basic": "^1.0.0"
+    "conflict": {
+        "zendframework/zend-expressive-authentication-basic": "*"
     }
 }
