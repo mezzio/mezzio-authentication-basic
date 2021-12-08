@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files>
+  <file src="vendor/symfony/polyfill-mbstring/bootstrap80.php">
+    <ParseError occurrences="1">
+      <code>=</code>
+    </ParseError>
+  </file>
+</files>
