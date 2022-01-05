@@ -26,17 +26,17 @@
         }
     },
     "require": {
-        "php": "^7.3 || ~8.0.0",
+        "php": "^7.4 || ~8.0.0 || ~8.1.0",
         "mezzio/mezzio-authentication": "^1.0",
         "psr/container": "^1.0",
         "psr/http-message": "^1.0.1"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "~2.2.0",
+        "laminas/laminas-coding-standard": "~2.3",
         "phpspec/prophecy": "^1.12",
         "phpspec/prophecy-phpunit": "^2.0",
-        "phpunit/phpunit": "^9.3",
-        "psalm/plugin-phpunit": "^0.12.2"
+        "phpunit/phpunit": "^9.5.8",
+        "psalm/plugin-phpunit": "^0.16"
     },
     "autoload": {
         "psr-4": {
