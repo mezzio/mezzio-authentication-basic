@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Mezzio\Authentication\Basic;
 
 use Mezzio\Authentication\AuthenticationInterface;
+use Mezzio\Authentication\Basic\Response\CallableResponseFactoryDecorator;
 use Mezzio\Authentication\UserInterface;
 use Mezzio\Authentication\UserRepositoryInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -14,6 +16,7 @@ use function array_shift;
 use function base64_decode;
 use function count;
 use function explode;
+use function is_callable;
 use function preg_match;
 use function sprintf;
 
@@ -26,22 +29,29 @@ class BasicAccess implements AuthenticationInterface
     protected $realm;
 
     // phpcs:disable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.InvalidFormat
-    /** @var callable():ResponseInterface */
+    /** @var (callable():ResponseInterface)|ResponseFactoryInterface */
     protected $responseFactory;
 
+    /** @param (callable():ResponseInterface)|ResponseFactoryInterface $responseFactory */
     public function __construct(
         UserRepositoryInterface $repository,
         string $realm,
-        callable $responseFactory
+        $responseFactory
     ) {
         $this->repository = $repository;
         $this->realm      = $realm;
 
         // Ensures type safety of the composed factory
-        $this->responseFactory = function () use ($responseFactory): ResponseInterface {
-            /** @var ResponseInterface */
-            return $responseFactory();
-        };
+        if (is_callable($responseFactory)) {
+            // Ensures type safety of the composed factory
+            $responseFactory = new CallableResponseFactoryDecorator(
+                static function () use ($responseFactory): ResponseInterface {
+                    return $responseFactory();
+                }
+            );
+        }
+
+        $this->responseFactory = $responseFactory;
     }
 
     public function authenticate(ServerRequestInterface $request): ?UserInterface
@@ -77,11 +87,11 @@ class BasicAccess implements AuthenticationInterface
 
     public function unauthorizedResponse(ServerRequestInterface $request): ResponseInterface
     {
-        return ($this->responseFactory)()
+        return $this->responseFactory
+            ->createResponse(401)
             ->withHeader(
                 'WWW-Authenticate',
                 sprintf('Basic realm="%s"', $this->realm)
-            )
-            ->withStatus(401);
+            );
     }
 }

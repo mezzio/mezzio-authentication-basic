@@ -7,12 +7,11 @@ namespace Mezzio\Authentication\Basic;
 use Mezzio\Authentication\Exception;
 use Mezzio\Authentication\UserRepositoryInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface;
-
-use function is_callable;
 
 class BasicAccessFactory
 {
+    use Psr17ResponseFactoryTrait;
+
     public function __invoke(ContainerInterface $container): BasicAccess
     {
         /** @var UserRepositoryInterface|UserRepositoryInterface|null $userRegister */
@@ -37,19 +36,10 @@ class BasicAccessFactory
             );
         }
 
-        /** @var callable|null $responseFactory */
-        $responseFactory = $container->get(ResponseInterface::class) ?? null;
-
-        if (null === $responseFactory || ! is_callable($responseFactory)) {
-            throw new Exception\InvalidConfigException(
-                'ResponseInterface value is not present in authentication config or not callable'
-            );
-        }
-
         return new BasicAccess(
             $userRegister,
             $realm,
-            $responseFactory
+            $this->detectResponseFactory($container)
         );
     }
 }

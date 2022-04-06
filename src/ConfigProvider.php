@@ -24,10 +24,6 @@ class ConfigProvider
     public function getDependencies(): array
     {
         return [
-            // Legacy Zend Framework aliases
-            'aliases'   => [
-                \Zend\Expressive\Authentication\Basic\BasicAccess::class => BasicAccess::class,
-            ],
             'factories' => [
                 BasicAccess::class => BasicAccessFactory::class,
             ],
