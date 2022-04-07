@@ -8,10 +8,8 @@ use Mezzio\Authentication\AuthenticationInterface;
 use Mezzio\Authentication\Basic\BasicAccess;
 use Mezzio\Authentication\UserInterface;
 use Mezzio\Authentication\UserRepositoryInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -19,18 +17,16 @@ use function base64_encode;
 
 class BasicAccessTest extends TestCase
 {
-    use ProphecyTrait;
-
-    /** @var ObjectProphecy<ServerRequestInterface> */
+    /** @var MockObject&ServerRequestInterface */
     private $request;
 
-    /** @var ObjectProphecy<UserRepositoryInterface> */
+    /** @var MockObject&UserRepositoryInterface */
     private $userRepository;
 
-    /** @var ObjectProphecy<UserInterface> */
+    /** @var MockObject&UserInterface */
     private $authenticatedUser;
 
-    /** @var ObjectProphecy<ResponseInterface> */
+    /** @var MockObject&ResponseInterface */
     private $responsePrototype;
 
     /** @var callable */
@@ -38,19 +34,19 @@ class BasicAccessTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->request           = $this->prophesize(ServerRequestInterface::class);
-        $this->userRepository    = $this->prophesize(UserRepositoryInterface::class);
-        $this->authenticatedUser = $this->prophesize(UserInterface::class);
-        $this->responsePrototype = $this->prophesize(ResponseInterface::class);
+        $this->request           = $this->createMock(ServerRequestInterface::class);
+        $this->userRepository    = $this->createMock(UserRepositoryInterface::class);
+        $this->authenticatedUser = $this->createMock(UserInterface::class);
+        $this->responsePrototype = $this->createMock(ResponseInterface::class);
         $this->responseFactory   = function (): ResponseInterface {
-            return $this->responsePrototype->reveal();
+            return $this->responsePrototype;
         };
     }
 
     public function testConstructor(): void
     {
         $basicAccess = new BasicAccess(
-            $this->userRepository->reveal(),
+            $this->userRepository,
             'test',
             $this->responseFactory
         );
@@ -63,18 +59,20 @@ class BasicAccessTest extends TestCase
     public function testIsAuthenticatedWithInvalidData(array $authHeader): void
     {
         $this->request
-            ->getHeader('Authorization')
+            ->expects($this->once())
+            ->method('getHeader')
+            ->with('Authorization')
             ->willReturn($authHeader);
 
-        $this->userRepository->authenticate(Argument::any(), Argument::any())->shouldNotBeCalled();
+        $this->userRepository->expects($this->never())->method('authenticate');
 
         $basicAccess = new BasicAccess(
-            $this->userRepository->reveal(),
+            $this->userRepository,
             'test',
             $this->responseFactory
         );
 
-        $this->assertNull($basicAccess->authenticate($this->request->reveal()));
+        $this->assertNull($basicAccess->authenticate($this->request));
     }
 
     /**
@@ -83,67 +81,75 @@ class BasicAccessTest extends TestCase
     public function testIsAuthenticatedWithValidCredential(string $username, string $password, array $authHeader): void
     {
         $this->request
-            ->getHeader('Authorization')
+            ->expects($this->once())
+            ->method('getHeader')
+            ->with('Authorization')
             ->willReturn($authHeader);
-        $this->request
-            ->withAttribute(UserInterface::class, Argument::type(UserInterface::class))
-            ->willReturn($this->request->reveal());
 
-        $this->authenticatedUser
-            ->getIdentity()
-            ->willReturn($username);
         $this->userRepository
-            ->authenticate($username, $password)
-            ->willReturn($this->authenticatedUser->reveal());
+            ->expects($this->once())
+            ->method('authenticate')
+            ->with($username, $password)
+            ->willReturn($this->authenticatedUser);
 
         $basicAccess = new BasicAccess(
-            $this->userRepository->reveal(),
+            $this->userRepository,
             'test',
             $this->responseFactory
         );
 
-        $user = $basicAccess->authenticate($this->request->reveal());
+        $user = $basicAccess->authenticate($this->request);
         $this->assertInstanceOf(UserInterface::class, $user);
     }
 
     public function testIsAuthenticatedWithNoCredential(): void
     {
         $this->request
-            ->getHeader('Authorization')
+            ->expects($this->once())
+            ->method('getHeader')
+            ->with('Authorization')
             ->willReturn(['Basic QWxhZGRpbjpPcGVuU2VzYW1l']);
 
         $this->userRepository
-            ->authenticate('Aladdin', 'OpenSesame')
+            ->expects($this->once())
+            ->method('authenticate')
+            ->with('Aladdin', 'OpenSesame')
             ->willReturn(null);
 
         $basicAccess = new BasicAccess(
-            $this->userRepository->reveal(),
+            $this->userRepository,
             'test',
             $this->responseFactory
         );
 
-        $this->assertNull($basicAccess->authenticate($this->request->reveal()));
+        $this->assertNull($basicAccess->authenticate($this->request));
     }
 
     public function testGetUnauthenticatedResponse(): void
     {
         $this->responsePrototype
-            ->getHeader('WWW-Authenticate')
+            ->expects($this->once())
+            ->method('withStatus')
+            ->with(401)
+            ->willReturnSelf();
+        $this->responsePrototype
+            ->expects($this->once())
+            ->method('getHeader')
+            ->with('WWW-Authenticate')
             ->willReturn(['Basic realm="test"']);
         $this->responsePrototype
-            ->withHeader('WWW-Authenticate', 'Basic realm="test"')
-            ->willReturn($this->responsePrototype->reveal());
-        $this->responsePrototype
-            ->withStatus(401)
-            ->willReturn($this->responsePrototype->reveal());
+            ->expects($this->once())
+            ->method('withHeader')
+            ->with('WWW-Authenticate', 'Basic realm="test"')
+            ->willReturnSelf();
 
         $basicAccess = new BasicAccess(
-            $this->userRepository->reveal(),
+            $this->userRepository,
             'test',
             $this->responseFactory
         );
 
-        $response = $basicAccess->unauthorizedResponse($this->request->reveal());
+        $response = $basicAccess->unauthorizedResponse($this->request);
 
         $this->assertEquals(['Basic realm="test"'], $response->getHeader('WWW-Authenticate'));
     }

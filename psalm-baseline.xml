@@ -1,8 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files>
-  <file src="vendor/symfony/polyfill-mbstring/bootstrap80.php">
-    <ParseError occurrences="1">
-      <code>=</code>
-    </ParseError>
+<files psalm-version="4.22.0@fc2c6ab4d5fa5d644d8617089f012f3bb84b8703">
+  <file src="src/BasicAccess.php">
+    <DeprecatedClass occurrences="1"/>
+    <PossiblyInvalidMethodCall occurrences="1">
+      <code>createResponse</code>
+    </PossiblyInvalidMethodCall>
+  </file>
+  <file src="src/BasicAccessFactory.php">
+    <DeprecatedTrait occurrences="1">
+      <code>Psr17ResponseFactoryTrait</code>
+    </DeprecatedTrait>
+  </file>
+  <file src="src/Psr17ResponseFactoryTrait.php">
+    <DeprecatedClass occurrences="1">
+      <code>new CallableResponseFactoryDecorator($responseFactory)</code>
+    </DeprecatedClass>
+    <UndefinedClass occurrences="1">
+      <code>ResponseFactoryFactory</code>
+    </UndefinedClass>
+  </file>
+  <file src="test/BasicAccessTest.php">
+    <MixedArgumentTypeCoercion occurrences="5">
+      <code>$this-&gt;responseFactory</code>
+      <code>$this-&gt;responseFactory</code>
+      <code>$this-&gt;responseFactory</code>
+      <code>$this-&gt;responseFactory</code>
+      <code>$this-&gt;responseFactory</code>
+    </MixedArgumentTypeCoercion>
+  </file>
+  <file src="test/ConfigProviderTest.php">
+    <RedundantCondition occurrences="1">
+      <code>assertIsArray</code>
+    </RedundantCondition>
   </file>
 </files>
