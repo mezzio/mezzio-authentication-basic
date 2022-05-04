@@ -24,9 +24,7 @@ authentication, use [path-segregation](https://docs.laminas.dev/laminas-stratigi
 use Mezzio\Authentication\AuthenticationMiddleware;
 
 // In the callback:
-$app->pipe('/api', $factory->path(
-    $factory->prepare(AuthenticationMiddleware::class)
-));
+$app->pipe('/api', AuthenticationMiddleware::class);
 ```
 
 ## For a specific route
