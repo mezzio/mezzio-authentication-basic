@@ -11,7 +11,7 @@ always send HTTP Basic credentials, as their prompts are always for the two
 values. As such, **this implementation expects both a username and password in
 the supplied credentials**.
 
-> ### Only use in trusted networks
+> ## Only use in trusted networks
 >
 > Since HTTP Basic transmits the credentials via the URL, it should only be used
 > within trusted networks, and never in public-facing sites, as the URL can be
