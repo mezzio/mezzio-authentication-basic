@@ -45,9 +45,7 @@ class BasicAccess implements AuthenticationInterface
         if (is_callable($responseFactory)) {
             // Ensures type safety of the composed factory
             $responseFactory = new CallableResponseFactoryDecorator(
-                static function () use ($responseFactory): ResponseInterface {
-                    return $responseFactory();
-                }
+                static fn(): ResponseInterface => $responseFactory()
             );
         }
 

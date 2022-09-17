@@ -31,9 +31,7 @@ class BasicAccessFactoryTest extends TestCase
     {
         $this->userRegister      = $this->createMock(UserRepositoryInterface::class);
         $this->responsePrototype = $this->createMock(ResponseInterface::class);
-        $this->responseFactory   = function (): ResponseInterface {
-            return $this->responsePrototype;
-        };
+        $this->responseFactory   = fn(): ResponseInterface => $this->responsePrototype;
     }
 
     public function testInvokeWithEmptyContainer(): void
