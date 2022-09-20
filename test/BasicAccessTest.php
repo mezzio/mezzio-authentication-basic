@@ -38,9 +38,7 @@ class BasicAccessTest extends TestCase
         $this->userRepository    = $this->createMock(UserRepositoryInterface::class);
         $this->authenticatedUser = $this->createMock(UserInterface::class);
         $this->responsePrototype = $this->createMock(ResponseInterface::class);
-        $this->responseFactory   = function (): ResponseInterface {
-            return $this->responsePrototype;
-        };
+        $this->responseFactory   = fn(): ResponseInterface => $this->responsePrototype;
     }
 
     public function testConstructor(): void
