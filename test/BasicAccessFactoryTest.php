@@ -96,7 +96,6 @@ class BasicAccessFactoryTest extends TestCase
     public function assertResponseFactoryReturns(ResponseInterface $expected, BasicAccess $service): void
     {
         $r = new ReflectionProperty($service, 'responseFactory');
-        $r->setAccessible(true);
         /** @var ResponseFactoryInterface $responseFactory */
         $responseFactory = $r->getValue($service);
         $this->responsePrototype
