@@ -31,6 +31,10 @@
       <code><![CDATA[$this->responseFactory]]></code>
       <code><![CDATA[$this->responseFactory]]></code>
     </MixedArgumentTypeCoercion>
+    <PossiblyUnusedMethod>
+      <code>provideInvalidAuthenticationHeader</code>
+      <code>provideValidAuthentication</code>
+    </PossiblyUnusedMethod>
   </file>
   <file src="test/ConfigProviderTest.php">
     <RedundantCondition>
