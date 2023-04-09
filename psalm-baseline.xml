@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.29.0@7ec5ffbd5f68ae03782d7fd33fff0c45a69f95b3">
+<files psalm-version="5.9.0@8b9ad1eb9e8b7d3101f949291da2b9f7767cd163">
   <file src="src/BasicAccess.php">
-    <DeprecatedClass occurrences="1"/>
-    <PossiblyInvalidMethodCall occurrences="1">
+    <DeprecatedClass>
+      <code><![CDATA[new CallableResponseFactoryDecorator(
+                static fn(): ResponseInterface => $responseFactory()
+            )]]></code>
+    </DeprecatedClass>
+    <PossiblyInvalidMethodCall>
       <code>createResponse</code>
     </PossiblyInvalidMethodCall>
   </file>
   <file src="src/BasicAccessFactory.php">
-    <DeprecatedTrait occurrences="1">
+    <DeprecatedTrait>
       <code>Psr17ResponseFactoryTrait</code>
     </DeprecatedTrait>
   </file>
   <file src="src/Psr17ResponseFactoryTrait.php">
-    <DeprecatedClass occurrences="1">
+    <DeprecatedClass>
       <code>new CallableResponseFactoryDecorator($responseFactory)</code>
     </DeprecatedClass>
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>ResponseFactoryFactory</code>
     </UndefinedClass>
   </file>
   <file src="test/BasicAccessTest.php">
-    <MixedArgumentTypeCoercion occurrences="5">
-      <code>$this-&gt;responseFactory</code>
-      <code>$this-&gt;responseFactory</code>
-      <code>$this-&gt;responseFactory</code>
-      <code>$this-&gt;responseFactory</code>
-      <code>$this-&gt;responseFactory</code>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$this->responseFactory]]></code>
+      <code><![CDATA[$this->responseFactory]]></code>
+      <code><![CDATA[$this->responseFactory]]></code>
+      <code><![CDATA[$this->responseFactory]]></code>
+      <code><![CDATA[$this->responseFactory]]></code>
     </MixedArgumentTypeCoercion>
   </file>
   <file src="test/ConfigProviderTest.php">
-    <RedundantCondition occurrences="1">
+    <RedundantCondition>
       <code>assertIsArray</code>
     </RedundantCondition>
   </file>
