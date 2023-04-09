@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MezzioTest\Authentication\Basic;
 
 use Mezzio\Authentication\Basic\ConfigProvider;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 class ConfigProviderTest extends TestCase
@@ -24,18 +25,14 @@ class ConfigProviderTest extends TestCase
         return $config;
     }
 
-    /**
-     * @depends testInvocationReturnsArray
-     */
+    #[Depends('testInvocationReturnsArray')]
     public function testReturnedArrayContainsDependencies(array $config): void
     {
         $this->assertArrayHasKey('dependencies', $config);
         $this->assertIsArray($config['dependencies']);
     }
 
-    /**
-     * @depends testInvocationReturnsArray
-     */
+    #[Depends('testInvocationReturnsArray')]
     public function testReturnedArrayContainsAuthenticationConfig(array $config): void
     {
         $this->assertArrayHasKey('authentication', $config);
