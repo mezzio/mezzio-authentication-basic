@@ -8,6 +8,7 @@ use Mezzio\Authentication\AuthenticationInterface;
 use Mezzio\Authentication\Basic\BasicAccess;
 use Mezzio\Authentication\UserInterface;
 use Mezzio\Authentication\UserRepositoryInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -51,9 +52,7 @@ class BasicAccessTest extends TestCase
         $this->assertInstanceOf(AuthenticationInterface::class, $basicAccess);
     }
 
-    /**
-     * @dataProvider provideInvalidAuthenticationHeader
-     */
+    #[DataProvider('provideInvalidAuthenticationHeader')]
     public function testIsAuthenticatedWithInvalidData(array $authHeader): void
     {
         $this->request
@@ -73,9 +72,7 @@ class BasicAccessTest extends TestCase
         $this->assertNull($basicAccess->authenticate($this->request));
     }
 
-    /**
-     * @dataProvider provideValidAuthentication
-     */
+    #[DataProvider('provideValidAuthentication')]
     public function testIsAuthenticatedWithValidCredential(string $username, string $password, array $authHeader): void
     {
         $this->request
@@ -165,7 +162,7 @@ class BasicAccessTest extends TestCase
      * multiple-auth-headers: array{0: array{0: array{0: string}, 1: array{0: string}}}
      * }
      */
-    public function provideInvalidAuthenticationHeader(): array
+    public static function provideInvalidAuthenticationHeader(): array
     {
         return [
             'empty-header'                     => [[]],
@@ -198,7 +195,7 @@ class BasicAccessTest extends TestCase
      * unicode-username-and-password: array{0: string, 1: string, 2: array{0: string}}
      * }
      */
-    public function provideValidAuthentication(): array
+    public static function provideValidAuthentication(): array
     {
         // phpcs:disable Generic.Files.LineLength.TooLong
         return [
