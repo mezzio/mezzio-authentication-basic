@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cdaa56306e449bd3d555874c9fa6c57c",
+    "content-hash": "f32c5415331c3b8eabcd190db9cd2ecc",
     "packages": [
         {
             "name": "mezzio/mezzio-authentication",
