@@ -47,17 +47,17 @@ class BasicAccessFactoryTest extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects($this->atLeastOnce())
             ->method('has')
-            ->will($this->returnValueMap([
+            ->willReturnMap([
                 [UserRepositoryInterface::class, true],
                 [ResponseFactoryInterface::class, false],
-            ]));
+            ]);
         $container->expects($this->atLeastOnce())
             ->method('get')
-            ->will($this->returnValueMap([
+            ->willReturnMap([
                 [UserRepositoryInterface::class, $this->userRegister],
                 [ResponseInterface::class, $this->responseFactory],
                 ['config', []],
-            ]));
+            ]);
 
         $factory = new BasicAccessFactory();
 
@@ -70,14 +70,14 @@ class BasicAccessFactoryTest extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects($this->atLeastOnce())
             ->method('has')
-            ->will($this->returnValueMap([
+            ->willReturnMap([
                 [UserRepositoryInterface::class, true],
                 [ResponseFactoryInterface::class, false],
                 [ResponseInterface::class, true],
-            ]));
+            ]);
         $container->expects($this->atLeastOnce())
             ->method('get')
-            ->will($this->returnValueMap([
+            ->willReturnMap([
                 [UserRepositoryInterface::class, $this->userRegister],
                 [ResponseInterface::class, $this->responseFactory],
                 [
@@ -86,7 +86,7 @@ class BasicAccessFactoryTest extends TestCase
                         'authentication' => ['realm' => 'My page'],
                     ],
                 ],
-            ]));
+            ]);
 
         $factory     = new BasicAccessFactory();
         $basicAccess = $factory($container);
