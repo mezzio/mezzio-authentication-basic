@@ -12,3 +12,8 @@ site_description: 'HTTP Basic Authentication adapter for mezzio-authentication.'
 repo_url: 'https://github.com/mezzio/mezzio-authentication-basic'
 extra:
     project: Mezzio
+
+plugins:
+    - redirects:
+        redirect_maps:
+            intro.md: v1/intro.md
