@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use function base64_encode;
 
-class BasicAccessTest extends TestCase
+final class BasicAccessTest extends TestCase
 {
     /** @var MockObject&ServerRequestInterface */
     private $request;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mezzio\Authentication\Basic;
 
+/** @final */
 class ConfigProvider
 {
     public function __invoke(): array
