@@ -8,6 +8,11 @@ use Mezzio\Authentication\Exception;
 use Mezzio\Authentication\UserRepositoryInterface;
 use Psr\Container\ContainerInterface;
 
+/**
+ * @final
+ * @psalm-internal Mezzio\Authentication\Basic
+ * @psalm-internal MezzioTest\Authentication\Basic
+ */
 class BasicAccessFactory
 {
     use Psr17ResponseFactoryTrait;

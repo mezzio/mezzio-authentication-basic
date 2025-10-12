@@ -20,6 +20,7 @@ use function is_callable;
 use function preg_match;
 use function sprintf;
 
+/** @final */
 class BasicAccess implements AuthenticationInterface
 {
     /** @var UserRepositoryInterface */

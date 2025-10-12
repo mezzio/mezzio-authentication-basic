@@ -16,7 +16,7 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionProperty;
 
-class BasicAccessFactoryTest extends TestCase
+final class BasicAccessFactoryTest extends TestCase
 {
     /** @var MockObject&UserRepositoryInterface */
     private $userRegister;
